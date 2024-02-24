@@ -1,4 +1,5 @@
-model_name: "gpt-3.5-turbo"
+# model_name: "gpt-3.5-turbo"  # 使用GPT的时候打开
+model_name: "chatglm2"  # 使用glm2时打开
 input_file: "tests/test.pdf"
 output_file_format: "markdown"
 source_language: "English"
