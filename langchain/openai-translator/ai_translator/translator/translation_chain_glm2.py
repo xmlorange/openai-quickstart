@@ -9,8 +9,13 @@ from langchain.prompts.chat import (
 
 from utils import LOG
 
+from .chatglm2 import ChatGLM2
+
+# 创建一个 TranslationChain 类，用于构造翻译任务的聊天模型
 class TranslationChain:
-    def __init__(self, model_name: str = "gpt-3.5-turbo", verbose: bool = True):
+    # model_name: 聊天模型的名称，默认为 chatglm2
+    # verbose: 是否打印日志，默认为 True
+    def __init__(self, model_name: str = "chatglm2", verbose: bool = True):
         
         # 翻译任务指令始终由 System 角色承担
         template = (
@@ -28,8 +33,13 @@ class TranslationChain:
             [system_message_prompt, human_message_prompt]
         )
 
-        # 为了翻译结果的稳定性，将 temperature 设置为 0
-        chat = ChatOpenAI(model_name=model_name, temperature=0, verbose=verbose)
+        print(f"Loading chat model {model_name}")
+        if model_name == "chatglm2":
+            chat = ChatGLM2()
+        elif model_name == "gpt-3.5-turbo":
+            chat = ChatOpenAI(model_name=model_name, temperature=0, verbose=verbose)
+        else:
+            chat = ChatOpenAI(verbose=verbose)
 
         self.chain = LLMChain(llm=chat, prompt=chat_prompt_template, verbose=verbose)
 
